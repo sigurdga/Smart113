@@ -1,0 +1,35 @@
+There are all kinds of projects going on to centrally register and manage health-related and personal information. 
+This project aims to turn the default from being registered whether you want it or not, to you owning and controlling the data that you register and voluntarily release them if certain contingencies occur.
+
+Smart 113 will allow users to automatically release a preregistered health related profile to the operator at the AMK-centre if a registered phone number is used to call 113.
+
+There are 19 different call centres in Norway and they do not share information. If you already have had an incident in one area, they have some data about you, but this is not available if you have an accident in another AMK-area.
+
+Smart113 will be automatically activated and controlled by the AMIS-system that the AMK-operators already use.
+
+The idea is that when the user call in an emergency, the AMIS send a query with the callers number and the necessary AMIS instance ID to the Smart113 system through VPN (or in another secure way). If there is a profile, this profile will be forwarded to a separate browser/system(?) window at the operators desktop. Integration with AMIS is way down the line if the project succeeds.
+
+If there is no profile, a discreet prompt should inform of this just to say that the request was actually processed.
+
+Smart113's job is to be a secure and robust repository for sensitive medical and personal information that could be critical in an emergency. It is NOT supposed to be a Medical Journal. It should only consist of information about known allergies, prescription drugs, relevant illnesses, disabilities and other types of information that is relevant for triage in an emergency.
+
+The system will also enable people to sign up their families and friends, and in so doing authorize access to their own profile through theirs. The reason for this is that 80% of all emergency calls are made on the behalf of another who have the actual emergency. 
+A significant portion of these are in close relation to each other. The idea is that if your mother have an accident, it will be enough to call 113 and say, "My mother has had a stroke" and the AMK-operators will immediately find your mother and her information instead of yours.
+
+The most important information that AMK needs is the location of the incident. All landline phones automatically show their location, but not cell phones.
+The idea is that users with a smart phone can download a small battery efficient service app that listen to which number the user calls on his/her smart phone. If they call 113 (110, 112, 911), the app should start a GPS-query and automatically transmit this to the Smart113 profile and to the operator that handles this case. The operator can copy paste the GPS coordinates into AMIS and thus automatically pinpoint the location of the caller without they having to do or say anything more than calling 113.
+
+The same app could also automatically start a chat session with the operator through the App and the Smart113 system. Especially useful for people that are permanently or temporarily deaf and/or dumb.
+
+The most important aspect of Smart113 is trust.
+
+Trust in the code that is does what we say it does.
+Trust in the security of the system
+Trust in that the preregistrered information is available if there is an emergency.
+Trust in that the information is inaccessible to any and all up until the moment it should be released to the AMK operators.
+
+The only way to gain that trust is to play with open cards and develop in open source.
+
+The project is inspired by www.smart911.com in USA, but this will be something universal but which starts in Norway.
+
+  
