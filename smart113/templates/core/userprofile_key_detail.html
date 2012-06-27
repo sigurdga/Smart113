@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{{ request.user.name }} {% trans "physical information" %}</h1>
+
+{% with request.user.profile as profile %}
+
+<ul class="thumbnails">
+    <li class="span3">
+    <img class="thumbnail" src="{{ profile.image.url }}">
+    </li>
+</ul>
+
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Primary language" %}</th>
+        <td>{{ profile.primary_language|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Date of birth" %}</th>
+        <td>{{ profile.birth_date|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Gender" %}</th>
+        <td>{{ profile.get_gender_display }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Street address" %}</th>
+        <td>{{ profile.street_address }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Postcode" %}</th>
+        <td>{{ profile.postcode }} kg</td>
+    </tr>
+    <tr>
+        <th>{% trans "City" %}</th>
+        <td>{{ profile.city }} cm</td>
+    </tr>
+    <tr>
+        <th>{% trans "Phone numbers" %}</th>
+        <td>{{ profile.phone_set.all }}</td>
+    </tr>
+</table>
+
+{% endwith %}
+{% endblock %}

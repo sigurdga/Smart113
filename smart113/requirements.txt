@@ -2,3 +2,5 @@ django
 south
 django-crispy-forms
 django-social-auth
+psycopg2
+pillow

@@ -9,7 +9,9 @@ from smart113.views import HomeView
 urlpatterns = patterns('',
         url(r'^$', HomeView.as_view(), name='home'),
         url(r'', include('social_auth.urls')),
+        url(r'^profile/', include('smart113.core.urls')),
         url(r'^logout/$', logout, name='auth_logout', kwargs={'next_page': '/'}),
+        url(r'^admin/', include(admin.site.urls)),
 )
 
 if settings.DEVELOPMENT_MODE:

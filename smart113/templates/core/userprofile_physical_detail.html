@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{{ request.user.name }} {% trans "physical information" %}</h1>
+
+{% with request.user.profile as profile %}
+
+<ul class="thumbnails">
+    <li class="span3">
+    <img class="thumbnail" src="{{ profile.image.url }}">
+    </li>
+</ul>
+
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Gender" %}</th>
+        <td>{{ profile.get_gender_display }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Primary language" %}</th>
+        <td>{{ profile.primary_language|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Hair color" %}</th>
+        <td>{{ profile.hair_color }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Eye color" %}</th>
+        <td>{{ profile.eye_color }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Weight" %}</th>
+        <td>{{ profile.weight|default:"" }} kg</td>
+    </tr>
+    <tr>
+        <th>{% trans "Height" %}</th>
+        <td>{{ profile.height|default:"" }} cm</td>
+    </tr>
+    <tr>
+        <th>{% trans "Extra information" %}</th>
+        <td>{{ profile.extra }}</td>
+    </tr>
+</table>
+
+{% endwith %}
+
+{% endblock %}
