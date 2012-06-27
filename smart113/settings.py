@@ -120,6 +120,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
+    "social_auth.context_processors.social_auth_backends",
 )
 
 INSTALLED_APPS = (
@@ -130,6 +131,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+
+    'south',
+    'crispy_forms',
+    'social_auth',
 
     'smart113.core',
 )
@@ -162,6 +167,18 @@ LOGGING = {
         },
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+GOOGLE_DISPLAY_NAME = 'Smart113'
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/login/'
 
 try:
     from local_settings import *

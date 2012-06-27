@@ -1,1 +1,4 @@
 django
+south
+django-crispy-forms
+django-social-auth
