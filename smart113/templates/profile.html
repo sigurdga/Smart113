@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load tabs_tags %}
+{% load i18n %}
+
+{% block content %}
+{% block section %}
+{% trans "Registered" %}
+{% endblock %}
+
+{% with request.user.profile as profile %}
+
+{% if profile.image %}
+<ul class="thumbnails">
+    <li class="span2">
+    <img class="thumbnail" src="{{ profile.image.url }}">
+    </li>
+</ul>
+{% endif %}
+
+{% endwith %}
+
+<div class="pull-right button-group">
+    <a class="btn btn-primary" href="{{ request.path_info }}/e">{% trans "Edit" %}</a>
+</div>
+
+<ul class="nav nav-tabs">
+{% get_tabs as tabs %}
+{% for tab in tabs %}
+<li class="{% if tab.is_active %}active{% endif%}">
+    <a href="{{ tab.address }}">{{ tab.name }}</a>
+</li>
+{% endfor %}
+</ul>
+
+{% block profile %}
+
+{% endblock %}
+
+{% endblock %}

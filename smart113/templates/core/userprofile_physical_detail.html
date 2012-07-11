@@ -1,26 +1,18 @@
-{% extends "base.html" %}
+{% extends "profile.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block section %}
+<h1>{% blocktrans with request.user.name as user %}Physical information about {{ user }}{% endblocktrans %}</h1>
+{% endblock %}
 
-<h1>{{ request.user.name }} {% trans "physical information" %}</h1>
+{% block profile %}
 
 {% with request.user.profile as profile %}
-
-<ul class="thumbnails">
-    <li class="span3">
-    <img class="thumbnail" src="{{ profile.image.url }}">
-    </li>
-</ul>
 
 <table class="table table-striped">
     <tr>
         <th>{% trans "Gender" %}</th>
         <td>{{ profile.get_gender_display }}</td>
-    </tr>
-    <tr>
-        <th>{% trans "Primary language" %}</th>
-        <td>{{ profile.primary_language|default:"" }}</td>
     </tr>
     <tr>
         <th>{% trans "Hair color" %}</th>
@@ -32,15 +24,27 @@
     </tr>
     <tr>
         <th>{% trans "Weight" %}</th>
-        <td>{{ profile.weight|default:"" }} kg</td>
+        <td>
+            {% if profile.weight %}
+            {{ profile.weight }} kg
+            {% endif %}
+        </td>
     </tr>
     <tr>
         <th>{% trans "Height" %}</th>
-        <td>{{ profile.height|default:"" }} cm</td>
+        <td>
+            {% if profile.height %}
+            {{ profile.height }} cm
+            {% endif %}
+        </td>
     </tr>
     <tr>
         <th>{% trans "Extra information" %}</th>
-        <td>{{ profile.extra }}</td>
+        <td>
+            {% if profile.extra %}
+                {{ profile.extra }}
+            {% endif %}
+        </td>
     </tr>
 </table>
 

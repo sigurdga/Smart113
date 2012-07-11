@@ -1,0 +1,19 @@
+{% extends "profile.html" %}
+{% load i18n %}
+
+{% block section %}
+<h1>{% blocktrans with request.user.name as user %}Sight information about {{ user }}{% endblocktrans%}</h1>
+{% endblock %}
+
+{% block profile %}
+
+{% with request.user.profile as profile %}
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Mobility" %}</th>
+        <td>{{ profile.get_mobility_display|default:"" }}</td>
+    </tr>
+</table>
+
+{% endwith %}
+{% endblock %}

@@ -29,11 +29,13 @@
 
     <body>
         <div class="container">
-            {% if request.user.is_authenticated %}
-            <a class="btn" href="{% url auth_logout %}">{% trans "Log out" %}</a>
-            {% else %}
-            <a class="btn" href="{% url socialauth_begin 'google' %}">{% trans "Log in using Google" %}</a>
-            {% endif %}
+            <div class="pull-right">
+                {% if request.user.is_authenticated %}
+                <a class="btn" href="{% url auth_logout %}">{% trans "Log out" %}</a>
+                {% else %}
+                <a class="btn" href="{% url socialauth_begin 'google' %}">{% trans "Log in using Google" %}</a>
+                {% endif %}
+            </div>
 
             {% if messages %}
             {% for message in messages %}

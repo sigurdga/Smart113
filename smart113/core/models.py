@@ -1,3 +1,5 @@
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
@@ -7,6 +9,38 @@ GENDER_CHOICES = (
         (2, _('Male')),
         (3, _('Other')),
         )
+
+SIGHT_CHOICES = (
+        #(1, _('Good')),
+        (2, _('Glasses')),
+        (3, _('Contact lenses')),
+        (4, _('Partial blindness')),
+        (5, _('Complete blindness')),
+        )
+
+HEARING_CHOICES = (
+        #(1, _('Good')),
+        (2, _('Nedsatt hearing')),
+        (3, _('Needs device')),
+        (4, _('Deaf')),
+        )
+
+SPEAKING_CHOICES = (
+        #(1, _('Good')),
+        (2, _('Some problems')),
+        (3, _('Mute')),
+        )
+
+MOBILITY_CHOICES = (
+        #(1, _('Working arms and legs')),
+        (2, _('Reduced mobility')),
+        )
+
+ALLERGIES_CHOICES = (
+        #(1, _('No known allergies')),
+        (2, _('Some allergies')),
+        )
+
 
 class Language(models.Model):
     name = models.CharField(max_length=50)
@@ -18,11 +52,11 @@ class Phone(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
-    # key information
+    # general information
     primary_language = models.ForeignKey(Language, null=True, blank=True, verbose_name=_('primary language'))
-    birth_date = models.DateField(_('birth date'), blank=True, null=True)
+    birth_date = models.DateField(_('date of birth'), blank=True, null=True)
     gender = models.SmallIntegerField(_('gender'), choices=GENDER_CHOICES, null=True, blank=True)
-    phones = models.ManyToManyField(Phone)
+    phones = models.ManyToManyField(Phone, blank=True)
 
     # contact
     street_address = models.CharField(_('street_address'), max_length=60, blank=True)
@@ -36,6 +70,27 @@ class UserProfile(models.Model):
     height = models.SmallIntegerField(_('height'), null=True, blank=True, help_text=_('in centimeters'))
     image = models.ImageField(_('image'), upload_to='pictures/', null=True, blank=True)
     extra = models.TextField(_('more'), null=True, blank=True)
+
+    # key disabilities
+    sight = models.SmallIntegerField(_('sight'), choices=SIGHT_CHOICES, null=True, blank=True)
+    hearing = models.SmallIntegerField(_('hearing'), choices=HEARING_CHOICES, null=True, blank=True)
+    speaking = models.SmallIntegerField(_('speaking'), choices=SPEAKING_CHOICES, null=True, blank=True)
+    mobility = models.SmallIntegerField(_('mobility'), choices=MOBILITY_CHOICES, null=True, blank=True)
+    allergies = models.SmallIntegerField(_('allergies'), choices=ALLERGIES_CHOICES, null=True, blank=True)
+
+    # emergency
+    amputation = models.NullBooleanField(_('amputation'), null=True)
+    blind = models.NullBooleanField(_('blind'), null=True)
+    cognitive = models.NullBooleanField(_('cognitive impairment'), null=True)
+    stationary = models.NullBooleanField(_('stationary'), null=True)
+    wheelchair = models.NullBooleanField(_('using wheelchair'), null=True)
+    deaf = models.NullBooleanField(_('deaf'), null=True)
+    #hearing = models.NullBooleanField(_('hearing impairment'), null=True)
+    #mobility = models.NullBooleanField(_('reduced mobility'), null=True)
+    mute = models.NullBooleanField(_('mute'), null=True)
+    life_support = models.NullBooleanField(_('on life support'), null=True)
+    walker = models.NullBooleanField(_('needs walker'), null=True)
+    oxygen = models.NullBooleanField(_('needs oxygen'), null=True)
 
     class Meta:
         verbose_name, verbose_name_plural = _('profile'), _('profiles')

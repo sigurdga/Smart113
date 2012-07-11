@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>{% blocktrans with request.user.name as user %}Update profile for {{ user }}{% endblocktrans %}</h1>
+
+<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+    {{ form|crispy }}
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i> {% trans "Save" %}</button>
+        {% comment %}
+        <a href="{% url organization-profile-list %}" class="btn"><i class="icon-remove"></i> {% trans "Cancel" %}</a>
+        {% endcomment %}
+    </div>
+</form>
+
+{% endblock %}
+

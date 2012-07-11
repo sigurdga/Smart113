@@ -1,0 +1,43 @@
+{% extends "profile.html" %}
+{% load i18n %}
+
+{% block section %}
+<h1>{% blocktrans with request.user.name as user %}Basic information about {{ user }}{% endblocktrans%}</h1>
+{% endblock %}
+
+{% block profile %}
+
+{% with request.user.profile as profile %}
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Primary language" %}</th>
+        <td>{{ profile.primary_language|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Date of birth" %}</th>
+        <td>{{ profile.birth_date|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Gender" %}</th>
+        <td>{{ profile.get_gender_display }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Street address" %}</th>
+        <td>{{ profile.street_address }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Postcode" %}</th>
+        <td>{{ profile.postcode }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "City" %}</th>
+        <td>{{ profile.city }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Phone numbers" %}</th>
+        <td>{{ profile.phone_set.all }}</td>
+    </tr>
+</table>
+
+{% endwith %}
+{% endblock %}
