@@ -1,9 +1,78 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% load webdesign %}
 
 {% block content %}
 
-<h1>Test</h1>
 
-<p>{{ request.user }}</p>
+{% if request.user.is_authenticated %}
+
+<div class="hero-unit">
+    <h1>{% trans "Emergency help" %}</h1>
+    <p>{% trans "When clicking this, you will contact the emergency center." %}</p>
+    <a class="btn btn-danger btn-large">{% trans "Emergency" %}</a>
+</div>
+
+<div class="page-header">
+    <h1>{% trans "Update information" %}
+        <small>{% trans "Please keep all information updated, it helps us, when we help you." %}</small>
+    </h1>
+</div>
+
+<p>{% trans "Keep in mind that these are the people you are most likely calling emergency about" %}</p>
+
+<h2><a href="{% url profile-basic %}">{% trans "You" %}</a></h2>
+{% with request.user.profile as profile %}
+<p>{% trans "Information about yourself" %} (ektefelle, samboer, osv vil dukke opp ved siden av)</p>
+<ul class="thumbnails">
+    <li class="span3">
+    <div class="thumbnail">
+        {% if profile.image %}
+        <img src="{{ profile.image.url }}">
+        {% endif %}
+        <h5>{{ request.user.name }}</h5>
+        <p>
+        {% if profile.gender %}
+        {{ profile.get_gender_display }},
+        {% endif %}
+        {% if profile.birth_date %}
+        {{ profile.age }}
+        {% trans "years old" %}
+        {% endif %}
+        </p>
+    </div>
+    </li>
+</ul>
+{% endwith %}
+
+<h2>{% trans "Children" %}</h2>
+<p>{% trans "Children and other you are responsible for" %}</p>
+
+<h2>{% trans "Parents" %}</h2>
+<p>{% trans "Parents and grandparents" %}</p>
+
+<h2>{% trans "Neighbours, etc" %}</h2>
+<p>Blablabla</p>
+
+<h2>{% trans "Colleagues, etc" %}</h2>
+<p>Blablabla</p>
+
+{% else %}
+
+<div class="hero-unit">
+    <h1>{% trans "Log in" %}</h1>
+<p>{% trans "We need to know who you are" %}</p>
+<a class="btn" href="{% url socialauth_begin 'google' %}">{% trans "Log in using Google" %}</a>
+
+</div>
+{% endif %}
+
+<div class="page-header">
+    <h1>{% trans "About" %}
+        <small>{% trans "What is all this about" %}</small>
+    </h1>
+</div>
+
+{% lorem 3 p random %}
 
 {% endblock %}

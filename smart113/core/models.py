@@ -98,5 +98,22 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    def age(self):
+        if self.birth_date:
+            from datetime import date
+            today = date.today()
+            born = self.birth_date
+
+            try:
+                birthday = born.replace(year=today.year)
+            except ValueError:
+                # raised when birth date is February 29 and the current year is not a leap year
+                birthday = born.replace(year=today.year, day=born.day-1)
+
+            if birthday > today:
+                return today.year - born.year - 1
+            else:
+                return today.year - born.year
+
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 User.name = property(lambda u: u.get_full_name() or u.username)
