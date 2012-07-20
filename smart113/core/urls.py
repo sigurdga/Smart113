@@ -4,6 +4,7 @@ from django.utils.translation import ugettext as _
 from smart113.core.views import *
 
 urlpatterns = patterns('',
+        url(r'^p/(?P<lat>[-.\d]+)/(?P<lon>[-.\d]+)$', ProxyView.as_view(), name="proxy-geocode"),
         url(r'^b$', ProfileBasicDetailView.as_view(), name="profile-basic"),
         url(r'^ph$', ProfilePhysicalDetailView.as_view(), name="profile-physical"),
         url(r'^k$', ProfileKeyDetailView.as_view(), name="profile-key"),

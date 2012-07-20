@@ -11,6 +11,7 @@
     <h1>{% trans "Emergency help" %}</h1>
     <p>{% trans "When clicking this, you will contact the emergency center." %}</p>
     <a class="btn btn-danger btn-large">{% trans "Emergency" %}</a>
+    <div><span id="position"></span> <span id="address"></span></div>
 </div>
 
 <div class="page-header">
@@ -60,11 +61,17 @@
 {% else %}
 
 <div class="hero-unit">
-    <h1>{% trans "Log in" %}</h1>
-<p>{% trans "We need to know who you are" %}</p>
-<a class="btn" href="{% url socialauth_begin 'google' %}">{% trans "Log in using Google" %}</a>
+    <h1>{% trans "Circumventing bureaucracy when it matters the most" %}</h1>
+    <p>{% trans "A very short introduction" %}</p>
+    <a class="btn btn-success btn-large" href="">{% trans "Take the tour" %}</a>
+    <div class="pull-right">
+        <a class="btn" href="{% url socialauth_begin 'google' %}">{% trans "Log in using Google" %}</a>
+    </div>
 
 </div>
+
+
+
 {% endif %}
 
 <div class="page-header">
@@ -75,4 +82,56 @@
 
 {% lorem 3 p random %}
 
+{% endblock %}
+
+{% block inlinejs %}
+{% if request.user.is_authenticated %}
+
+$(document).ready(function () {
+
+    navigator.geolocation.getCurrentPosition(show_map);
+
+    function show_map(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      // let's show a map or do something interesting!
+      console.log(latitude);
+      console.log(longitude);
+      $('#position').text('Position: ' + longitude + ', ' + latitude);
+      //latitude = "59.92";
+      //longitude = "10.71"
+      $.getJSON('{{ request.path_info }}profile/p/' + latitude + '/' + longitude, function(data) {
+            var response = jQuery.parseJSON(data);
+            if (!response.info.statuscode && response.results) {
+                var result = response.results[0];
+                if (result.locations) {
+                    var location = result.locations[0];
+                    var locationarr = [];
+                    if (location.adminArea5) {
+                        locationarr.push(location.adminArea5);
+                    }
+                    if (location.adminArea4) {
+                        locationarr.push(location.adminArea4);
+                    }
+                    if (location.adminArea3) {
+                        locationarr.push(location.adminArea3);
+                    }
+                    if (location.adminArea1) {
+                        locationarr.push(location.adminArea1);
+                    }
+
+                    if (locationarr) {
+                        $('#address').text(' near ' + locationarr.join(", "));
+                    }
+                }
+            }
+          console.log(jQuery.parseJSON(data));
+      });
+    }
+
+    function renderReverse(position_string) {
+        $('#position').text("Oslo, Norway");
+    }
+});
+{% endif %}
 {% endblock %}

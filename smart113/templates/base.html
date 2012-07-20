@@ -57,7 +57,9 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
         {% block includejs %}{% endblock %}
-        {% block inlinejs %}{% endblock %}
+        <script>
+            {% block inlinejs %}{% endblock %}
+        </script>
 
         <!--<script src="/socket.io/socket.io.js"></script>
         <script src="/js/bootstrap-transition.js"></script>
