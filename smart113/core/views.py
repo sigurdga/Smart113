@@ -120,16 +120,3 @@ class JSONResponseMixin(object):
 
 class JSONView(JSONResponseMixin, View):
     pass
-
-class ProxyView(JSONView):
-
-    def get(self, request, *args, **kwargs):
-        #if request.is_ajax():
-        headers = { 'User-Agent' : 'StrekmannLocation/0.1' }
-        url = 'http://open.mapquestapi.com/geocoding/v1/reverse?lat=%s&lng=%s' % (self.kwargs.get('lat'), self.kwargs.get('lon'))
-        print url
-        req = urllib2.Request(url, headers=headers)
-        data = urllib2.urlopen(req).read()
-        print data
-        return self.render_to_response(data)
-

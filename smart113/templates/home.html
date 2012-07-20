@@ -11,7 +11,10 @@
     <h1>{% trans "Emergency help" %}</h1>
     <p>{% trans "When clicking this, you will contact the emergency center." %}</p>
     <a class="btn btn-danger btn-large">{% trans "Emergency" %}</a>
-    <div><span id="position"></span> <span id="address"></span></div>
+    <div class="hide">
+        {% trans "You are near" %}
+        <span id="position"></span>
+    </div>
 </div>
 
 <div class="page-header">
@@ -22,14 +25,16 @@
 
 <p>{% trans "Keep in mind that these are the people you are most likely calling emergency about" %}</p>
 
-<h2><a href="{% url profile-basic %}">{% trans "You" %}</a></h2>
+<h2>{% trans "You" %}</h2>
 {% with request.user.profile as profile %}
 <p>{% trans "Information about yourself" %} (ektefelle, samboer, osv vil dukke opp ved siden av)</p>
 <ul class="thumbnails">
     <li class="span3">
-    <div class="thumbnail">
+    <a class="thumbnail" href="{% url profile-basic %}">
         {% if profile.image %}
         <img src="{{ profile.image.url }}">
+        {% else %}
+        <img src="{{ STATIC_URL }}img/person.jpg">
         {% endif %}
         <h5>{{ request.user.name }}</h5>
         <p>
@@ -41,7 +46,7 @@
         {% trans "years old" %}
         {% endif %}
         </p>
-    </div>
+    </a>
     </li>
 </ul>
 {% endwith %}
@@ -87,51 +92,23 @@
 {% block inlinejs %}
 {% if request.user.is_authenticated %}
 
-$(document).ready(function () {
+function initialize() {
+    navigator.geolocation.getCurrentPosition(geocode);
+}
+function geocode(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
 
-    navigator.geolocation.getCurrentPosition(show_map);
-
-    function show_map(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-      // let's show a map or do something interesting!
-      console.log(latitude);
-      console.log(longitude);
-      $('#position').text('Position: ' + longitude + ', ' + latitude);
-      //latitude = "59.92";
-      //longitude = "10.71"
-      $.getJSON('{{ request.path_info }}profile/p/' + latitude + '/' + longitude, function(data) {
-            var response = jQuery.parseJSON(data);
-            if (!response.info.statuscode && response.results) {
-                var result = response.results[0];
-                if (result.locations) {
-                    var location = result.locations[0];
-                    var locationarr = [];
-                    if (location.adminArea5) {
-                        locationarr.push(location.adminArea5);
-                    }
-                    if (location.adminArea4) {
-                        locationarr.push(location.adminArea4);
-                    }
-                    if (location.adminArea3) {
-                        locationarr.push(location.adminArea3);
-                    }
-                    if (location.adminArea1) {
-                        locationarr.push(location.adminArea1);
-                    }
-
-                    if (locationarr) {
-                        $('#address').text(' near ' + locationarr.join(", "));
-                    }
-                }
+    var latlng = new google.maps.LatLng(latitude, longitude);
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'latLng': latlng }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+                $('#position').parent().removeClass("hide");
+                $('#position').text(results[0].formatted_address);
             }
-          console.log(jQuery.parseJSON(data));
-      });
-    }
-
-    function renderReverse(position_string) {
-        $('#position').text("Oslo, Norway");
-    }
-});
+        }
+    });
+}
 {% endif %}
 {% endblock %}
