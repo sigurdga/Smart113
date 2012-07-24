@@ -7,6 +7,7 @@
 {% trans "Registered" %}
 {% endblock %}
 
+{% comment %}
 {% with request.user.profile as profile %}
 
 {% if profile.image %}
@@ -18,6 +19,7 @@
 {% endif %}
 
 {% endwith %}
+{% endcomment %}
 
 {% block actionmenu %}
 <div class="pull-right button-group">
