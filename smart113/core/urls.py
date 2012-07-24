@@ -4,6 +4,9 @@ from django.utils.translation import ugettext as _
 from smart113.core.views import *
 
 urlpatterns = patterns('',
+        url(r'^p$', ProfilePhoneListView.as_view(), name="profile-phone-list"),
+        url(r'^p/a$', ProfilePhoneCreateView.as_view(), name="profile-phone-create"),
+        url(r'^p/d/(?P<pk>\d+)$', ProfilePhoneDeleteView.as_view(), name="profile-phone-delete"),
         url(r'^b$', ProfileBasicDetailView.as_view(), name="profile-basic"),
         url(r'^ph$', ProfilePhysicalDetailView.as_view(), name="profile-physical"),
         url(r'^k$', ProfileKeyDetailView.as_view(), name="profile-key"),

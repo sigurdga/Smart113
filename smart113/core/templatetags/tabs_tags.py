@@ -22,6 +22,7 @@ def get_tabs(context):
 
     tabs = []
     tabs.append(Tab(_('Basic'), reverse('profile-basic'), path))
+    tabs.append(Tab(_('Phone numbers'), reverse('profile-phone-list'), path))
     tabs.append(Tab(_('Physical'), reverse('profile-physical'), path))
     tabs.append(Tab(_('Key'), reverse('profile-key'), path))
 

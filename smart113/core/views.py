@@ -1,14 +1,14 @@
-from django.views.generic import View, DetailView, UpdateView
+from django.views.generic import View, DetailView, ListView, CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.functional import lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 import urllib2
 import json
 
-from smart113.core.models import UserProfile
+from smart113.core.models import UserProfile, Phone
 from smart113.core.forms import *
 
 class ProfileDetailView(DetailView):
@@ -44,6 +44,42 @@ class ProfileAllergiesDetailView(ProfileDetailView):
 
 class ProfileEmergencyDetailView(ProfileDetailView):
     template_name = "core/userprofile_emergency_detail.html"
+
+class ProfilePhoneListView(ListView):
+    model = Phone
+    #template_name = "core/userprofile_emergency_detail.html"
+
+    def get_queryset(self):
+        return super(ProfilePhoneListView, self).get_queryset().filter(userprofile=self.request.user.profile)
+
+class ProfilePhoneCreateView(CreateView):
+    model = Phone
+    success_url = lazy(reverse, str)("profile-phone-list")
+
+    def form_valid(self, form):
+        phone = form.save(commit=False)
+        self.object, created = Phone.objects.get_or_create(number=phone.number)
+        self.request.user.profile.phones.add(self.object)
+        return HttpResponseRedirect(self.get_success_url())
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ProfilePhoneCreateView, self).dispatch(*args, **kwargs)
+
+class ProfilePhoneDeleteView(DeleteView):
+    model = Phone
+    success_url = lazy(reverse, str)("profile-phone-list")
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        request.user.profile.phones.remove(self.object)
+        if not self.object.userprofile_set.all():
+            self.object.delete()
+        return HttpResponseRedirect(self.get_success_url())
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ProfilePhoneDeleteView, self).dispatch(*args, **kwargs)
 
 class ProfileUpdateView(UpdateView):
     model = UserProfile

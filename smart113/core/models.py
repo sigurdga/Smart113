@@ -49,6 +49,9 @@ class Language(models.Model):
 class Phone(models.Model):
     number = models.CharField(_('phone number'), max_length=20)
 
+    def __unicode__(self):
+        return self.number
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
 

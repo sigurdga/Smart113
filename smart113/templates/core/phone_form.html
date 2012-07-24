@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>{% blocktrans with request.user.name as user %}Add new phone number for {{ user }}{% endblocktrans %}</h1>
+
+<form class="form-horizontal" method="post" action="">{% csrf_token %}
+    {{ form|crispy }}
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit"><i class="icon-ok icon-white"></i> {% trans "Save" %}</button>
+</form>
+
+{% endblock %}

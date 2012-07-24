@@ -19,9 +19,11 @@
 
 {% endwith %}
 
+{% block actionmenu %}
 <div class="pull-right button-group">
     <a class="btn btn-primary" href="{{ request.path_info }}/e">{% trans "Edit" %}</a>
 </div>
+{% endblock %}
 
 <ul class="nav nav-tabs">
 {% get_tabs as tabs %}

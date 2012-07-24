@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{% trans "Remove this phone number?" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% blocktrans with object.number as number %}Remove phone number {{ number }}?{% endblocktrans %}</h1>
+<p>{% blocktrans with object.number as number %}Do you really want to remove your number <strong>{{ number }}</strong>?{% endblocktrans %}</p>
+
+<form action="{% url profile-phone-delete object.id %}" method="post" class="form">{% csrf_token %}
+        {{ form|crispy }}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> {% trans "Delete" %}</button>
+        <a class="btn" href="{% url profile-phone-list %}"><i class="icon-remove"></i> {% trans "Cancel" %}</a>
+    </div>
+</form>
+{% endblock %}
+
