@@ -47,7 +47,6 @@ class ProfileEmergencyDetailView(ProfileDetailView):
 
 class ProfilePhoneListView(ListView):
     model = Phone
-    #template_name = "core/userprofile_emergency_detail.html"
 
     def get_queryset(self):
         return super(ProfilePhoneListView, self).get_queryset().filter(userprofile=self.request.user.profile)
@@ -95,6 +94,25 @@ class ProfileUpdateView(UpdateView):
 class ProfileBasicUpdateView(ProfileUpdateView):
     form_class = ProfileBasicForm
     success_url = lazy(reverse, str)("profile-basic")
+
+    def get_initial(self):
+        initial = {}
+        user = self.object.user
+        if user.first_name:
+            initial['first_name'] = user.first_name
+        if user.last_name:
+            initial['last_name'] = user.last_name
+        #if user.username:
+            #initial['username'] = user.username
+        return initial
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.user.first_name = form.cleaned_data['first_name']
+        self.object.user.last_name = form.cleaned_data['last_name']
+        #self.object.user.username = form.cleaned_data['username']
+        self.object.user.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 class ProfilePhysicalUpdateView(ProfileUpdateView):
     form_class = ProfilePhysicalForm

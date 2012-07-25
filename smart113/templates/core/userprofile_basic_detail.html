@@ -10,16 +10,12 @@
 {% with request.user.profile as profile %}
 <table class="table table-striped">
     <tr>
-        <th>{% trans "Primary language" %}</th>
-        <td>{{ profile.primary_language|default:"" }}</td>
+        <th>{% trans "First name" %}</th>
+        <td>{{ profile.user.first_name|default:"" }}</td>
     </tr>
     <tr>
-        <th>{% trans "Date of birth" %}</th>
-        <td>{{ profile.birth_date|default:"" }}</td>
-    </tr>
-    <tr>
-        <th>{% trans "Gender" %}</th>
-        <td>{{ profile.get_gender_display }}</td>
+        <th>{% trans "Last name" %}</th>
+        <td>{{ profile.user.last_name|default:"" }}</td>
     </tr>
     <tr>
         <th>{% trans "Street address" %}</th>
@@ -34,8 +30,16 @@
         <td>{{ profile.city }}</td>
     </tr>
     <tr>
-        <th>{% trans "Phone numbers" %}</th>
-        <td>{{ profile.phone_set.all }}</td>
+        <th>{% trans "Primary language" %}</th>
+        <td>{{ profile.primary_language|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Date of birth" %}</th>
+        <td>{{ profile.birth_date|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Gender" %}</th>
+        <td>{{ profile.get_gender_display }}</td>
     </tr>
 </table>
 

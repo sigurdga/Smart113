@@ -10,10 +10,11 @@ def get_years():
     return range(year, year-100, -1)
 
 class ProfileBasicForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50)
     class Meta:
         model = UserProfile
-        fields = ['primary_language', 'birth_date', 'gender', 'street_address',
-                'postcode', 'city', 'phones']
+        fields = ['first_name', 'last_name', 'street_address', 'postcode', 'city', 'primary_language', 'birth_date', 'gender']
         widgets = {'birth_date': SelectDateWidget(years=get_years()) }
 
 class ProfilePhysicalForm(forms.ModelForm):
