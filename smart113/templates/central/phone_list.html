@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% blocktrans %}Search results for phone number {{ number }}{% endblocktrans %}</h1>
+
+{% for phone in object_list %}
+
+<h2>{{ phone }}</h2>
+
+{% for profile in phone.userprofile_set.all %}
+<ul class="thumbnails">
+    <li class="span3">
+    <a class="thumbnail" href="{% url profile-basic %}">
+        {% if profile.image %}
+        <img src="{{ profile.image.url }}">
+        {% else %}
+        <img src="{{ STATIC_URL }}img/person.jpg">
+        {% endif %}
+        <h5>{{ request.user.name }}</h5>
+        <p>
+        {% if profile.gender %}
+        {{ profile.get_gender_display }},
+        {% endif %}
+        {% if profile.birth_date %}
+        {{ profile.age }}
+        {% trans "years old" %}<br>
+        {{ profile.city }}
+        {% endif %}
+        </p>
+    </a>
+    </li>
+</ul>
+{% endfor %}
+
+{% empty %}
+<p>{% blocktrans %}No results for "{{ number }}"{% endblocktrans %}</p>
+{% endfor %}
+
+{% endblock %}
