@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1>{% blocktrans with object.user.name as user %}Update profile for {{ user }}{% endblocktrans %}</h1>
+<h1>{% blocktrans with object.user.name as user %}Add new contact{% endblocktrans %}</h1>
 
 <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
     {{ form|crispy }}

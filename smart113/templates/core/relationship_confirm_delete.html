@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{% trans "Remove relationship?" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% blocktrans with object.to_person.user.name as name %}Remove relationship to {{name}}?{% endblocktrans %}</h1>
+<p>{% blocktrans with object.to_person.user.name as name %}By confirming this, you will remove your relationship to <strong>{{ name }}</strong>? The person's profile will not be removed.{% endblocktrans %}</p>
+
+<form action="{% url profile-relation-delete object.id %}" method="post" class="form">{% csrf_token %}
+        {{ form|crispy }}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-danger"><i class="icon-trash"></i> {% trans "Delete" %}</button>
+        <a class="btn" href="{% url profile-relation-list %}"><i class="icon-remove"></i> {% trans "Cancel" %}</a>
+    </div>
+</form>
+{% endblock %}
+

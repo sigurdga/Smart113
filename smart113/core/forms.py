@@ -3,11 +3,21 @@ from django.forms.extras.widgets import SelectDateWidget
 
 import datetime
 
-from smart113.core.models import UserProfile
+from smart113.core.models import UserProfile, RELATIONSHIP_CHOICES
 
 def get_years():
     year = datetime.date.today().year
     return range(year, year-100, -1)
+
+class ProfileRelationForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50)
+    relation = forms.ChoiceField(RELATIONSHIP_CHOICES)
+    same_address = forms.BooleanField(required=False)
+    class Meta:
+        model = UserProfile
+        fields = ['first_name', 'last_name', 'relation', 'same_address']
+
 
 class ProfileBasicForm(forms.ModelForm):
     first_name = forms.CharField(max_length=50)

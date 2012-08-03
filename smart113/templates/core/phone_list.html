@@ -2,14 +2,14 @@
 {% load i18n %}
 
 {% block section %}
-<h1>{% blocktrans with request.user.name as user %}{{ user }}'s phone numbers{% endblocktrans%}</h1>
+<h1>{% blocktrans with userprofile.user.name as user %}{{ user }}'s phone numbers{% endblocktrans%}</h1>
 {% endblock %}
 
 {% block profile %}
 
 {% with request.user.profile as profile %}
 <table class="table table-striped">
-    {% for phone in profile.phones.all %}
+    {% for phone in object_list.all %}
     <tr>
         <td class="phone">{{ phone.number }}</td>
         <td><a class="btn btn-danger" href="{% url profile-phone-delete phone.pk %}"><i class="icon-trash icon-white"></i> {% trans "Remove" %}</a></td>

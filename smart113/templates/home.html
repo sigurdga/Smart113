@@ -48,20 +48,93 @@
         </p>
     </a>
     </li>
+    {% for contact in profile.get_significant_others %}
+    <li class="span2">
+    <a class="thumbnail" href="{% url relation-basic contact.pk %}">
+        {% if contact.image %}
+
+        {% else %}
+        <img src="{{ STATIC_URL }}img/person.jpg">
+        {% endif %}
+        <h5>{{ contact.user.name }}</h5>
+        {% if contact.gender %}
+        {{ contact.get_gender_display }},
+        {% endif %}
+        {% if contact.birth_date %}
+        {{ contact.age }}
+        {% trans "years old" %}
+        {% endif %}
+        <br>
+        {% trans "Significant other" %}
+    </a>
+    </li>
+    {% endfor %}
 </ul>
-{% endwith %}
 
 <h2>{% trans "Children" %}</h2>
 <p>{% trans "Children and other you are responsible for" %}</p>
+<ul class="thumbnails">
+    {% for contact in profile.get_children %}
+    <li class="span2">
+    <a class="thumbnail" href="{% url relation-basic contact.pk %}">
+        {% if contact.image %}
+
+        {% else %}
+        <img src="{{ STATIC_URL }}img/person.jpg">
+        {% endif %}
+        <h5>{{ contact.user.name }}</h5>
+        {% if contact.gender %}
+        {{ contact.get_gender_display }},
+        {% endif %}
+        {% if contact.birth_date %}
+        {{ contact.age }}
+        {% trans "years old" %}
+        {% endif %}
+        <br>
+        {% trans "Child" %}
+    </a>
+    </li>
+    {% endfor %}
+</ul>
 
 <h2>{% trans "Parents" %}</h2>
 <p>{% trans "Parents and grandparents" %}</p>
+
+<ul class="thumbnails">
+    {% for contact in profile.get_parents %}
+    <li class="span2">
+    <a class="thumbnail" href="{% url relation-basic contact.pk %}">
+        {% if contact.image %}
+
+        {% else %}
+        <img src="{{ STATIC_URL }}img/person.jpg">
+        {% endif %}
+        <h5>{{ contact.user.name }}</h5>
+        {% if contact.gender %}
+        {{ contact.get_gender_display }},
+        {% endif %}
+        {% if contact.birth_date %}
+        {{ contact.age }}
+        {% trans "years old" %}
+        {% endif %}
+        <br>
+        {% trans "Parent" %}
+    </a>
+    </li>
+    {% endfor %}
+</ul>
 
 <h2>{% trans "Neighbours, etc" %}</h2>
 <p>Blablabla</p>
 
 <h2>{% trans "Colleagues, etc" %}</h2>
 <p>Blablabla</p>
+
+{% endwith %}
+
+<h1>{% trans "Add contacts" %}</h1>
+<p>Blablabla</p>
+<a class="btn btn-primary btn-large" href="{% url profile-relation-create %}">{% trans "Add" %}</a>
 
 {% else %}
 

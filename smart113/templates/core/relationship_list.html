@@ -1,0 +1,29 @@
+{% extends "profile.html" %}
+{% load i18n %}
+
+{% block section %}
+<h1>{% blocktrans with userprofile.user.name as user %}{{ user }}'s contacts{% endblocktrans%}</h1>
+{% endblock %}
+
+{% block profile %}
+
+{% with request.user.profile as profile %}
+<table class="table table-striped">
+    {% for relationship in object_list.all %}
+    {% with relationship.to_person as contact %}
+    <tr>
+        <td>{{ contact.user.name }}</td>
+        <td>{{ relationship.get_relation_display }}</td>
+        <td><a class="btn btn-warning" href="{% url relation-basic relationship.to_person.pk %}"><i class="icon-edit icon-white"></i> {% trans "Update" %}</a></td>
+        <td><a class="btn btn-danger" href="{% url profile-relation-delete relationship.pk %}"><i class="icon-trash icon-white"></i> {% trans "Remove" %}</a></td>
+    </tr>
+    {% endwith %}
+    {% endfor %}
+</table>
+
+{% endwith %}
+<a class="btn btn-primary" href="{% url profile-relation-create %}">{% trans "Add contact" %}</a>
+{% endblock %}
+
+{% block actionmenu %}
+{% endblock %}

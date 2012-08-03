@@ -2,12 +2,12 @@
 {% load i18n %}
 
 {% block section %}
-<h1>{% blocktrans with request.user.name as user %}Basic information about {{ user }}{% endblocktrans%}</h1>
+<h1>{% blocktrans with object.user.name as user %}Basic information about {{ user }}{% endblocktrans%}</h1>
 {% endblock %}
 
 {% block profile %}
 
-{% with request.user.profile as profile %}
+{% with object as profile %}
 <table class="table table-striped">
     <tr>
         <th>{% trans "First name" %}</th>
@@ -39,7 +39,7 @@
     </tr>
     <tr>
         <th>{% trans "Gender" %}</th>
-        <td>{{ profile.get_gender_display }}</td>
+        <td>{{ profile.get_gender_display|default:"" }}</td>
     </tr>
 </table>
 
