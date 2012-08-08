@@ -34,7 +34,7 @@ class ProfileRelationshipCreateView(CreateView):
 
         self.request.user.profile.add_relationship(profile, form.cleaned_data['relation'])
 
-        return HttpResponseRedirect(reverse('relation-basic', kwargs={'pk': user.id}))
+        return HttpResponseRedirect(reverse('relation-basic', kwargs={'pk': user.profile.id}))
 
 class ProfileDetailView(DetailView):
     model = UserProfile
