@@ -7,6 +7,8 @@
 
 {% if request.user.is_authenticated %}
 
+{% if request.user.last_name %}
+
 <div class="hero-unit">
     <h1>{% trans "Emergency help" %}</h1>
     <p>{% trans "When clicking this, you will contact the emergency center." %}</p>
@@ -16,6 +18,20 @@
         <span id="position"></span>
     </div>
 </div>
+
+{% else %}
+
+{% comment %}
+Logged in, no last name
+{% endcomment %}
+
+<div class="hero-unit">
+    <h1>{% trans "Now we need some information" %}</h1>
+    <p>{% trans "To be helpful, you need to tell us about yourself. Later, you can always review or update your information by clicking the large profile picture below." %}</p>
+    <a class="btn btn-large btn-success" href="{% url update-basic %}">{% trans "Register information" %}</a>
+</div>
+
+{% endif %}
 
 <div class="page-header">
     <h1>{% trans "Update information" %}
@@ -136,7 +152,11 @@
 <p>Blablabla</p>
 <a class="btn btn-primary btn-large" href="{% url profile-relation-create %}">{% trans "Add" %}</a>
 
+
 {% else %}
+{% comment %}
+Not logged in
+{% endcomment %}
 
 <div class="hero-unit">
     <h1>{% trans "Circumventing bureaucracy when it matters the most" %}</h1>
