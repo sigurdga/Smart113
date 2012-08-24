@@ -6,6 +6,12 @@
 
 <h1>{% blocktrans %}Search results for phone number {{ number }}{% endblocktrans %}</h1>
 
+<form class="well form-search" action="/c/search/" method="get">
+    <input id="phone-number" name="number" type="text" class="input-medium search-query">
+    <button type="submit" class="btn">Search</button>
+</form>
+
+
 {% for phone in object_list %}
 
 <h2>{{ phone }}</h2>
@@ -39,4 +45,32 @@
 <p>{% blocktrans %}No results for "{{ number }}"{% endblocktrans %}</p>
 {% endfor %}
 
+{% endblock %}
+
+{% block includejs %}
+<script src="//localhost:1337/socket.io/socket.io.js"></script>
+
+<script>
+            var socket = io.connect('http://localhost:1337');
+            socket.on('news', function (data) {
+                console.log(data);
+                socket.emit('my other event', { my: 'data' });
+            });
+            socket.on('message', function (data) {
+                console.log(data);
+                $('body').append("<p>" + jQuery.trim(data['phone_number']) + "</p>");
+                //socket.emit('ret', { data: data });
+            });
+
+$(function(){
+  $('form').submit(function(e){
+      e.preventDefault();
+      var form = this;
+      var number = jQuery('#phone-number').val();
+      console.log(number);
+      window.location = form.action + number;
+  });
+});
+
+</script>
 {% endblock %}

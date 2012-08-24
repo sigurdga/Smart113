@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load webdesign %}
+
+{% block content %}
+
+
+{% if request.user.is_superuser %}
+
+<div>
+    <h1>{% trans "People needing help" %}</h1>
+    <p>{% trans "Recent calls from users. Need to search for other people?" %}</p>
+    <form class="well form-search" action="/c/search/" method="get">
+        <input id="phone-number" name="number" type="text" class="input-medium search-query">
+        <button type="submit" class="btn">Search</button>
+    </form>
+</div>
+
+<div class="page-header">
+    <h1>{% trans "Recent calls" %}
+        <small>{% trans "Triggered by ISDN phone calls" %}</small>
+    </h1>
+</div>
+
+<div id="calls">
+    {% for object in object_list %}
+    <div class="well">
+        <h2><a href="{% url central-phone-list object.query %}">{{ object.query }}</a></h2>
+        <p>{{ object.datetime }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+
+<div class="hero-unit">
+    <h1>{% trans "Circumventing bureaucracy when it matters the most" %}</h1>
+    <p>{% trans "A very short introduction" %}</p>
+    <a class="btn btn-success btn-large" href="">{% trans "Take the tour" %}</a>
+    <div class="pull-right">
+        <a class="btn" href="{% url socialauth_begin 'google' %}">{% trans "Log in using Google" %}</a>
+    </div>
+
+</div>
+
+
+
+{% endif %}
+
+{% endblock %}
+{% block includejs %}
+<script src="//localhost:1337/socket.io/socket.io.js"></script>
+
+<script>
+            var socket = io.connect('http://localhost:1337');
+            socket.on('news', function (data) {
+                console.log(data);
+                socket.emit('my other event', { my: 'data' });
+            });
+            socket.on('call', function (data) {
+                console.log(data);
+                var time = new Date();
+                if (data.match) {
+                    var bgclass = " match";
+                } else {
+                    var bgclass = "";
+                }
+                $('#calls').prepend('<div class="well' + bgclass + '"><h2><a href="/c/search/' + jQuery.trim(data.number) + '">' + jQuery.trim(data.number) +'</a></h2>' + data.results.map(function(item) { return '<p><a href="' + item.id + '">' + item.name + ' (' + item.city + ')</a><br>' + time.getHours() + ":" + time.getMinutes() + '</p>' }).join(", "));
+                //socket.emit('ret', { data: data });
+            });
+
+
+$(function(){
+  $('form').submit(function(e){
+      e.preventDefault();
+      var form = this;
+      var number = jQuery('#phone-number').val();
+      console.log(number);
+      window.location = form.action + number;
+  });
+});
+
+</script>
+{% endblock %}

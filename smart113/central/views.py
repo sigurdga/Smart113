@@ -1,10 +1,22 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
+from datetime import datetime, timedelta
+
 from smart113.core.models import UserProfile, Phone
+from smart113.central.models import Search
+
+class HomeView(ListView):
+    template_name = "central/home.html"
+    model = Search
+
+    def get_queryset(self):
+        time_ago = datetime.now() - timedelta(hours=6)
+        return super(HomeView, self).get_queryset().filter(datetime__gt=time_ago)
+
 
 class PhoneListView(ListView):
 

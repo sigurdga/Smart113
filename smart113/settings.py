@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'social_auth',
 
     'smart113.core',
+    'smart113.central',
 )
 
 # A sample logging configuration. The only tangible logging
