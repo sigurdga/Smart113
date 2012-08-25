@@ -19,7 +19,7 @@
 {% for profile in phone.userprofile_set.all %}
 <ul class="thumbnails">
     <li class="span3">
-    <a class="thumbnail" href="{% url profile-basic %}">
+    <a class="thumbnail" href="{% url central-smarturl-redirect profile.id %}">
         {% if profile.image %}
         <img src="{{ profile.image.url }}">
         {% else %}

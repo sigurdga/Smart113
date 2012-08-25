@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
+from smart113.core.models import UserProfile
+
 class Search(models.Model):
 
     user = models.ForeignKey(User, null=True)
@@ -14,3 +16,13 @@ class Search(models.Model):
 
     class Meta:
         ordering = ['-datetime']
+
+class SmartURL(models.Model):
+
+    profile = models.ForeignKey(UserProfile)
+    user = models.ForeignKey(User)
+    used = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(max_length=36)
+
+    def __unicode__(self):
+        return "%s: %s" % (self.user.name, self.profile.name)
