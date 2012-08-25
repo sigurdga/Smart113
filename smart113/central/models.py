@@ -25,4 +25,7 @@ class SmartURL(models.Model):
     slug = models.SlugField(max_length=36)
 
     def __unicode__(self):
-        return "%s: %s" % (self.user.name, self.profile.name)
+        return "%s: %s" % (self.user.name, self.profile.user.name)
+
+    class Meta:
+        ordering = ['-used']

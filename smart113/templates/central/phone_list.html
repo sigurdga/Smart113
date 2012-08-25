@@ -49,19 +49,9 @@
 
 {% block includejs %}
 <script src="//localhost:1337/socket.io/socket.io.js"></script>
+<script src="{{ STATIC_URL }}js/call.js"></script>
 
 <script>
-            var socket = io.connect('http://localhost:1337');
-            socket.on('news', function (data) {
-                console.log(data);
-                socket.emit('my other event', { my: 'data' });
-            });
-            socket.on('message', function (data) {
-                console.log(data);
-                $('body').append("<p>" + jQuery.trim(data['phone_number']) + "</p>");
-                //socket.emit('ret', { data: data });
-            });
-
 $(function(){
   $('form').submit(function(e){
       e.preventDefault();

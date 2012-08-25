@@ -14,12 +14,17 @@ from smart113.central.models import Search, SmartURL
 
 class HomeView(ListView):
     template_name = "central/home.html"
-    model = Search
+    model = SmartURL
 
     def get_queryset(self):
         time_ago = datetime.now() - timedelta(hours=6)
-        return super(HomeView, self).get_queryset().filter(datetime__gt=time_ago)
+        return super(HomeView, self).get_queryset().filter(used__gt=time_ago)
 
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        time_ago = datetime.now() - timedelta(hours=6)
+        context['calls'] = Search.objects.filter(datetime__gt=time_ago)
+        return context
 
 class PhoneListView(ListView):
 
@@ -47,6 +52,12 @@ class SmartURLView(DetailView):
 
     model = SmartURL
     template_name = 'central/profile_full.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SmartURLView, self).get_context_data(**kwargs)
+        time_ago = datetime.now() - timedelta(hours=6)
+        context['calls'] = Search.objects.filter(datetime__gt=time_ago)
+        return context
 
 class SmartURLRedirectView(RedirectView):
 

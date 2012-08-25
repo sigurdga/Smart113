@@ -7,28 +7,43 @@
 
 {% if request.user.is_superuser %}
 
-<div>
-    <h1>{% trans "People needing help" %}</h1>
-    <p>{% trans "Recent calls from users. Need to search for other people?" %}</p>
-    <form class="well form-search" action="/c/search/" method="get">
-        <input id="phone-number" name="number" type="text" class="input-medium search-query">
-        <button type="submit" class="btn">Search</button>
-    </form>
-</div>
+<div class="row">
+    <div class="span9">
+        <h1>{% trans "Smart113 central" %}</h1>
+        <form class="well form-search" action="/c/search/" method="get">
+            <input id="phone-number" name="number" type="text" class="input-medium search-query">
+            <button type="submit" class="btn">Search</button>
+        </form>
 
-<div class="page-header">
-    <h1>{% trans "Recent calls" %}
-        <small>{% trans "Triggered by ISDN phone calls" %}</small>
-    </h1>
-</div>
+        <h2>{% trans "Recently opened profiles" %}</h2>
 
-<div id="calls">
-    {% for object in object_list %}
-    <div class="well">
-        <h2><a href="{% url central-phone-list object.query %}">{{ object.query }}</a></h2>
-        <p>{{ object.datetime }}</p>
+        {% for object in object_list %}
+        <div class="well">
+            <h2><a href="{% url central-smarturl-redirect object.profile.id %}">{{ object.profile.user.name }}</a></h2>
+            <p>{{ object.used }}</p>
+            <dl>
+                <dt>{% trans "Opened by" %}</dt>
+                {% for smarturl in object.profile.smarturl_set.all %}
+                <dd>{{ smarturl.user }} {{ smarturl.used }}</dd>
+                {% endfor %}
+            </dl>
+        </div>
+        {% endfor %}
+
     </div>
-    {% endfor %}
+
+    <div class="span3">
+        <h1><small>{% trans "Recent calls" %}</small></h1>
+        <div id="calls">
+            {% for object in calls %}
+            <div class="well">
+                <h2><small><a href="{% url central-phone-list object.query %}">{{ object.query }}</a></small></h2>
+                <p>{{ object.datetime }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
 </div>
 
 {% else %}
@@ -50,26 +65,9 @@
 {% endblock %}
 {% block includejs %}
 <script src="//localhost:1337/socket.io/socket.io.js"></script>
+<script src="{{ STATIC_URL }}js/call.js"></script>
 
 <script>
-            var socket = io.connect('http://localhost:1337');
-            socket.on('news', function (data) {
-                console.log(data);
-                socket.emit('my other event', { my: 'data' });
-            });
-            socket.on('call', function (data) {
-                console.log(data);
-                var time = new Date();
-                if (data.match) {
-                    var bgclass = " match";
-                } else {
-                    var bgclass = "";
-                }
-                $('#calls').prepend('<div class="well' + bgclass + '"><h2><a href="/c/search/' + jQuery.trim(data.number) + '">' + jQuery.trim(data.number) +'</a></h2>' + data.results.map(function(item) { return '<p><a href="' + item.id + '">' + item.name + ' (' + item.city + ')</a><br>' + time.getHours() + ":" + time.getMinutes() + '</p>' }).join(", "));
-                //socket.emit('ret', { data: data });
-            });
-
-
 $(function(){
   $('form').submit(function(e){
       e.preventDefault();
