@@ -62,3 +62,34 @@ def get_tabs(context):
             tabs.append(Tab(_('Allergies'), reverse('relation-allergies', kwargs={'pk': user_id}), path))
 
     return tabs
+
+@register.assignment_tag(takes_context=True)
+def update_tabs(context):
+    request = context['request']
+
+    tabs = []
+
+    path = request.path_info
+    user = request.user
+
+    userprofile = context['userprofile']
+
+    if userprofile == user.profile:
+        tabs.append(Tab(_('Basic'), reverse('update-basic'), path))
+        tabs.append(Tab(_('Phone numbers'), reverse('profile-phone-list'), path))
+        tabs.append(Tab(_('Physical'), reverse('update-physical'), path))
+        tabs.append(Tab(_('Key'), reverse('update-key'), path))
+
+        if user.profile.sight:
+            tabs.append(Tab(_('Sight'), reverse('update-sight'), path))
+        if user.profile.hearing:
+            tabs.append(Tab(_('Hearing'), reverse('update-hearing'), path))
+        #if user.profile.speaking:
+            #tabs.append(Tab(_('Speaking'), reverse('profile-speaking'), path))
+        if user.profile.mobility:
+            tabs.append(Tab(_('Mobility'), reverse('update-mobility'), path))
+        if user.profile.allergies:
+            tabs.append(Tab(_('Allergies'), reverse('update-allergies'), path))
+
+        tabs.append(Tab(_('Contacts'), reverse('profile-relation-list'), path))
+    return tabs

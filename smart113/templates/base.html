@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <title>{% block title %}Smart113{% endblock %} · Smart113</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet">
         <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
-        <link href="{{ STATIC_URL }}css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}css/force.css" rel="stylesheet">
         {% block includecss %}{% endblock %}
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -28,13 +28,32 @@
     </head>
 
     <body>
-        <div class="container">
-            <div class="pull-right">
-                {% if request.user.is_authenticated %}
-                {{ request.user.name }}
-                <a class="btn" href="{% url auth_logout %}">{% trans "Log out" %}</a>
-                {% endif %}
+        <div class="navbar navbar-fixed-top navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav">
+                        <li class="active"><a href="#">Forside</a></li>
+                        <li><a href="{% url update-basic %}">{{ request.user.name }}</a></li>
+                    </ul>
+                        <ul class="nav pull-right">
+                            {% if request.user.is_authenticated %}
+
+                            <li><a href="{% url auth_logout %}">{% trans "Log out" %}</a></li>
+                            {% else %}
+                            <li><a href="{% url auth_login %}">Log in / register</a></li>
+                            {% endif %}
+                        </ul>
+                </div>
             </div>
+        </div>
+
+        <div class="container">
+            <img src="{{ STATIC_URL }}img/logo.png" style="padding: 0 0 20px 0">
+        </div>
+
+        <div style="background-color: white">
+
+        <div class="container">
 
             {% if messages %}
             {% for message in messages %}
@@ -52,6 +71,25 @@
             {% endblock content %}
 
         </div> <!-- /container -->
+        </div>
+
+        <div class="container" style="padding: 50px 0 80px">
+
+            <div class="row">
+                <div class="span3">
+                    Kontakt
+                </div>
+                <div class="span3">
+                    Kontakt
+                </div>
+                <div class="span3">
+                    Kontakt
+                </div>
+                <div class="span3">
+                    Kontakt
+                </div>
+            </div>
+        </div>
 
         <!-- Le javascript
         ================================================== -->
