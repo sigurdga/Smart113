@@ -104,6 +104,7 @@ def get_menu(context):
     user = request.user
 
     tabs.append(Tab(_('Forside'), reverse('home'), path))
-    tabs.append(Tab(user.name, reverse('profile-detail'), path))
+    if user.is_authenticated():
+        tabs.append(Tab(user.name, reverse('profile-detail'), path))
 
     return tabs
