@@ -46,30 +46,6 @@ class ProfileDetailView(DetailView):
     def dispatch(self, *args, **kwargs):
         return super(ProfileDetailView, self).dispatch(*args, **kwargs)
 
-class ProfileBasicDetailView(ProfileDetailView):
-    template_name = "core/userprofile_basic_detail.html"
-
-class ProfilePhysicalDetailView(ProfileDetailView):
-    template_name = "core/userprofile_physical_detail.html"
-
-class ProfileKeyDetailView(ProfileDetailView):
-    template_name = "core/userprofile_key_detail.html"
-
-class ProfileSightDetailView(ProfileDetailView):
-    template_name = "core/userprofile_sight_detail.html"
-
-class ProfileHearingDetailView(ProfileDetailView):
-    template_name = "core/userprofile_hearing_detail.html"
-
-class ProfileMobilityDetailView(ProfileDetailView):
-    template_name = "core/userprofile_mobility_detail.html"
-
-class ProfileAllergiesDetailView(ProfileDetailView):
-    template_name = "core/userprofile_allergies_detail.html"
-
-class ProfileEmergencyDetailView(ProfileDetailView):
-    template_name = "core/userprofile_emergency_detail.html"
-
 class RelationDetailView(ProfileDetailView):
 
     def get_object(self):
