@@ -4,7 +4,8 @@
 
 {% block content %}
 
-
+<div class="row">
+<div class="span6">
 {% if request.user.is_authenticated %}
 
 {% if request.user.last_name %}
@@ -173,14 +174,24 @@ Not logged in
 
 
 {% endif %}
-
-<div class="page-header">
-    <h1>{% trans "About" %}
-        <small>{% trans "What is all this about" %}</small>
-    </h1>
 </div>
 
-{% lorem 3 p random %}
+<div class="span6">
+
+<div class="page-header">
+    <h1>{% trans "News" %}</h1>
+</div>
+<h2>{% lorem 4 w random %}</h2>
+{% lorem 1 p random %}
+
+<h2>{% lorem 3 w random %}</h2>
+{% lorem 1 p random %}
+
+<h2>{% lorem 5 w random %}</h2>
+{% lorem 1 p random %}
+</div>
+
+</div>
 
 {% endblock %}
 
