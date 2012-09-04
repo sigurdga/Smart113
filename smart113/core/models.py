@@ -98,7 +98,7 @@ class UserProfile(models.Model):
     phones = models.ManyToManyField(Phone, blank=True)
 
     # contact
-    street_address = models.CharField(_('street_address'), max_length=60, blank=True)
+    street_address = models.CharField(_('street address'), max_length=60, blank=True)
     postcode = models.CharField(_('postcode'), max_length=10, blank=True)
     city = models.CharField(_('city'), max_length=30, blank=True)
 

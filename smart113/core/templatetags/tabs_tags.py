@@ -93,3 +93,17 @@ def update_tabs(context):
 
         tabs.append(Tab(_('Contacts'), reverse('profile-relation-list'), path))
     return tabs
+
+@register.assignment_tag(takes_context=True)
+def get_menu(context):
+    request = context['request']
+
+    tabs = []
+
+    path = request.path_info
+    user = request.user
+
+    tabs.append(Tab(_('Forside'), reverse('home'), path))
+    tabs.append(Tab(user.name, reverse('profile-detail'), path))
+
+    return tabs

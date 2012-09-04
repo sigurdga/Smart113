@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% blocktrans with object.user.name as user %}Profile page for {{ user }}{% endblocktrans%}</h1>
+
+<div id="sections" class="tabbable tabs-left">
+
+<ul class="nav nav-tabs" data-spy="affix">
+    <li><a href="#basic">{% trans "Basic" %}</a></li>
+    <li><a href="#physical">{% trans "Physical" %}</a></li>
+    <li><a href="#key">{% trans "Key" %}</a></li>
+    <li><a href="#mobility">{% trans "Mobility" %}</a></li>
+    <li><a href="#sight">{% trans "Sight" %}</a></li>
+    <li><a href="#hearing">{% trans "Hearing" %}</a></li>
+    <li><a href="#allergies">{% trans "Allergies" %}</a></li>
+    <li><a href="#contacts">{% trans "Contacts" %}</a></li>
+</ul>
+
+<div class="tab-content" style="margin-left:120px">
+
+{% with object as profile %}
+<section id="basic">
+<div class="pull-right button-group">
+    <a class="btn" href="{% url update-basic %}">{% trans "Edit" %}</a>
+</div>
+<h2>{% trans "Basic" %}</h2>
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "First name" %}</th>
+        <td>{{ profile.user.first_name|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Last name" %}</th>
+        <td>{{ profile.user.last_name|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Street address" %}</th>
+        <td>{{ profile.street_address }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Postcode" %}</th>
+        <td>{{ profile.postcode }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "City" %}</th>
+        <td>{{ profile.city }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Primary language" %}</th>
+        <td>{{ profile.primary_language|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Date of birth" %}</th>
+        <td>{{ profile.birth_date|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Gender" %}</th>
+        <td>{{ profile.get_gender_display|default:"" }}</td>
+    </tr>
+</table>
+
+<h3>{% trans "Assigned phone numbers" %}</h3>
+<table class="table table-striped">
+    {% for phone in profile.phones.all %}
+    <tr>
+        <td class="phone">{{ phone.number }}</td>
+        <td><a class="btn" href="{% url profile-phone-delete phone.pk %}"><i class="icon-trash"></i> {% trans "Remove" %}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<a class="btn" href="{% url profile-phone-create %}">{% trans "Add new number" %}</a>
+</section>
+
+<section id="physical">
+<div class="pull-right button-group">
+    <a class="btn" href="{% url update-physical %}">{% trans "Edit" %}</a>
+</div>
+<h2>{% trans "Physical" %}</h2>
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Gender" %}</th>
+        <td>{{ profile.get_gender_display|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Hair color" %}</th>
+        <td>{{ profile.hair_color }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Eye color" %}</th>
+        <td>{{ profile.eye_color }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Weight" %}</th>
+        <td>
+            {% if profile.weight %}
+            {{ profile.weight }} kg
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>{% trans "Height" %}</th>
+        <td>
+            {% if profile.height %}
+            {{ profile.height }} cm
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>{% trans "Extra information" %}</th>
+        <td>
+            {% if profile.extra %}
+                {{ profile.extra }}
+            {% endif %}
+        </td>
+    </tr>
+</table>
+</section>
+
+<section id="key">
+<div class="pull-right button-group">
+    <a class="btn" href="{% url update-key %}">{% trans "Edit" %}</a>
+</div>
+<h2>{% trans "Key" %}</h2>
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Sight" %}</th>
+        <td>{{ profile.get_sight_display|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Hearing" %}</th>
+        <td>{{ profile.get_hearing_display|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Speaking" %}</th>
+        <td>{{ profile.get_speaking_display|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Mobility" %}</th>
+        <td>{{ profile.get_mobility_display|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Allergies" %}</th>
+        <td>{{ profile.get_allergies_display|default:"" }}</td>
+    </tr>
+</table>
+</section>
+
+<section id="mobility">
+<div class="pull-right button-group">
+    <a class="btn" href="{% url update-mobility %}">{% trans "Edit" %}</a>
+</div>
+<h2>{% trans "Mobility" %}</h2>
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Mobility" %}</th>
+        <td>{{ profile.get_mobility_display|default:"" }}</td>
+    </tr>
+</table>
+</section>
+
+<section id="sight">
+<div class="pull-right button-group">
+    <a class="btn" href="{% url update-sight %}">{% trans "Edit" %}</a>
+</div>
+<h2>{% trans "Sight" %}</h2>
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Sight" %}</th>
+        <td>{{ profile.get_sight_display|default:"" }}</td>
+    </tr>
+</table>
+</section>
+
+<section id="hearing">
+<div class="pull-right button-group">
+    <a class="btn" href="{% url update-hearing %}">{% trans "Edit" %}</a>
+</div>
+<h2>{% trans "Hearing" %}</h2>
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Hearing" %}</th>
+        <td>{{ profile.get_hearing_display|default:"" }}</td>
+    </tr>
+</table>
+</section>
+
+<section id="allergies">
+<div class="pull-right button-group">
+    <a class="btn" href="{% url update-allergies %}">{% trans "Edit" %}</a>
+</div>
+<h2>{% trans "Allergies" %}</h2>
+<table class="table table-striped">
+    <tr>
+        <th>{% trans "Allergies" %}</th>
+        <td>{{ profile.get_allergies_display|default:"" }}</td>
+    </tr>
+</table>
+</section>
+
+<section id="contacts">
+<h2>{% trans "Contacts" %}</h2>
+<table class="table table-striped">
+    {% for contact in profile.relationships.all %}
+    <tr>
+        <td>{{ contact.user.name }}</td>
+        <td><a class="btn" href="{% url relation-basic contact.pk %}"><i class="icon-edit"></i> {% trans "Update" %}</a></td>
+        <td><a class="btn" href="{% url profile-relation-delete contact.pk %}"><i class="icon-trash"></i> {% trans "Remove" %}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<a class="btn btn-primary" href="{% url profile-relation-create %}">{% trans "Add contact" %}</a>
+</section>
+
+{% endwith %}
+</div>
+</div>
+{% endblock %}
+
+{% block inlinejs %}
+$('body').scrollspy({target: '#sections'});
+{% endblock %}
