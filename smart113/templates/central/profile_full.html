@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% with object.profile as profile %}
+
+<h1>{{ profile.user.name }}</h1>
+
+<div class="row">
+    <div class="span9">
+
+
+<p>{% blocktrans with object.user.name as creator and object.used as used %}Shareable profile page created by {{ creator }}, last seen {{ used }}{% endblocktrans %}</p>
+
+{% if profile.image %}
+<img height="160" src="{{ profile.image.url }}">
+{% else %}
+<img height="160" src="{{ STATIC_URL }}img/person.jpg">
+{% endif %}
+
+<h2>{% trans "Basic information" %}</h2>
+
+<table class="table table-condensed">
+    <tr>
+        <th>{% trans "First name" %}</th>
+        <td>{{ profile.user.first_name|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Last name" %}</th>
+        <td>{{ profile.user.last_name|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Street address" %}</th>
+        <td>{{ profile.street_address }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Postcode" %}</th>
+        <td>{{ profile.postcode }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "City" %}</th>
+        <td>{{ profile.city }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Primary language" %}</th>
+        <td>{{ profile.primary_language|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Date of birth" %}</th>
+        <td>{{ profile.birth_date|default:"" }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Gender" %}</th>
+        <td>{{ profile.get_gender_display|default:"" }}</td>
+    </tr>
+</table>
+
+<h2>{% trans "Physical information" %}</h2>
+<table class="table table-consensed">
+    <tr>
+        <th>{% trans "Hair color" %}</th>
+        <td>{{ profile.hair_color }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Eye color" %}</th>
+        <td>{{ profile.eye_color }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Weight" %}</th>
+        <td>
+            {% if profile.weight %}
+            {{ profile.weight }} kg
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>{% trans "Height" %}</th>
+        <td>
+            {% if profile.height %}
+            {{ profile.height }} cm
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>{% trans "Extra information" %}</th>
+        <td>
+            {% if profile.extra %}
+                {{ profile.extra }}
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+    </div>
+
+    <div class="span3">
+        <h1><small>{% trans "Recent calls" %}</small></h1>
+        <div id="calls">
+            {% for object in calls %}
+            <div class="well">
+                <h2><small><a href="{% url central-phone-list object.query %}">{{ object.query }}</a></small></h2>
+                <p>{{ object.datetime }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% endwith %}
+
+{% endblock %}
+
+{% block includejs %}
+<script src="//localhost:1337/socket.io/socket.io.js"></script>
+<script src="{{ STATIC_URL }}js/call.js"></script>
+{% endblock %}
