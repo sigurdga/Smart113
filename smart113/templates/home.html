@@ -9,6 +9,7 @@
 
 {% if request.user.last_name %}
 
+{% comment %}
 <div class="hero-unit">
     <h1>{% trans "Emergency help" %}</h1>
     <p>{% trans "When clicking this, you will contact the emergency center." %}</p>
@@ -18,6 +19,7 @@
         <span id="position"></span>
     </div>
 </div>
+{% endcomment %}
 
 {% else %}
 
@@ -46,7 +48,7 @@ Logged in, no last name
 <p>{% trans "Information about yourself" %} (ektefelle, samboer, osv vil dukke opp ved siden av)</p>
 <ul class="thumbnails">
     <li class="span3">
-    <a class="thumbnail" href="{% url profile-basic %}">
+    <a class="thumbnail" href="{% url profile-detail %}">
         {% if profile.image %}
         <img src="{{ profile.image.url }}">
         {% else %}
